@@ -1,4 +1,3 @@
-import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -7,10 +6,10 @@ from google.cloud import bigquery
 # Streamlit Page Config
 st.set_page_config(page_title="📊 Analytics Dashboard", layout="wide")
 
-# Securely Fetch Credentials from Streamlit Secrets
+# Fetch Google Cloud Project ID from Streamlit Secrets
 PROJECT_ID = st.secrets["GCP_PROJECT_ID"]
 
-# Initialize BigQuery Client with OAuth Authentication
+# Initialize BigQuery Client
 client = bigquery.Client(project=PROJECT_ID)
 
 # SQL Query for Data Retrieval
@@ -66,7 +65,7 @@ FROM aggregated_data
 ORDER BY event_dates, model_name, variant_name, color_name, feature_name, accessory_name, pack_name;
 """
 
-# Fetch Data
+# Fetch Data from BigQuery
 @st.cache_data
 def get_data():
     df = client.query(QUERY).to_dataframe()
