@@ -7,12 +7,10 @@ from google.cloud import bigquery
 # Streamlit Page Config
 st.set_page_config(page_title="📊 Analytics Dashboard", layout="wide")
 
-# Set Up Google Cloud Credentials
-GOOGLE_CLOUD_CREDENTIALS = "credentials.json"  # Replace with your actual credentials file
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = GOOGLE_CLOUD_CREDENTIALS
+# Securely Fetch Credentials from Streamlit Secrets
+PROJECT_ID = st.secrets["GCP_PROJECT_ID"]
 
-# Initialize BigQuery Client
-PROJECT_ID = "mg-analytics-441108"  # Replace with your actual project ID
+# Initialize BigQuery Client with OAuth Authentication
 client = bigquery.Client(project=PROJECT_ID)
 
 # SQL Query for Data Retrieval
